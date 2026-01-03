@@ -13,10 +13,10 @@ interface MoodSelectorProps {
 
 const moods: { level: MoodLevel; label: string; icon: React.ReactNode; color: string }[] = [
   { level: "great", label: "Great", icon: <Sparkles className="w-6 h-6" />, color: "text-success" },
-  { level: "good", label: "Good", icon: <Sun className="w-6 h-6" />, color: "text-warning" },
+  { level: "good", label: "Good", icon: <Sun className="w-6 h-6" />, color: "text-yellow-400" },
   { level: "okay", label: "Okay", icon: <CloudSun className="w-6 h-6" />, color: "text-muted-foreground" },
-  { level: "low", label: "Low", icon: <Cloud className="w-6 h-6" />, color: "text-secondary-foreground" },
-  { level: "struggling", label: "Struggling", icon: <CloudRain className="w-6 h-6" />, color: "text-accent" },
+  { level: "low", label: "Low", icon: <Cloud className="w-6 h-6" />, color: "text-cyan-400" },
+  { level: "struggling", label: "Struggling", icon: <CloudRain className="w-6 h-6" />, color: "text-pink-400" },
 ];
 
 const intensities: { level: MoodIntensity; label: string }[] = [
@@ -97,7 +97,7 @@ export function MoodSelector({ onMoodSelect, isSubmitting }: MoodSelectorProps) 
               {intensities.map((intensity) => (
                 <Button
                   key={intensity.level}
-                  variant={selectedIntensity === intensity.level ? "lumora" : "sanctuary"}
+                  variant={selectedIntensity === intensity.level ? "lumora" : "glass"}
                   onClick={() => handleIntensityClick(intensity.level)}
                   className="flex-1"
                 >
@@ -134,7 +134,7 @@ export function MoodSelector({ onMoodSelect, isSubmitting }: MoodSelectorProps) 
             />
             <div className="flex gap-3">
               <Button
-                variant="sanctuary"
+                variant="glass"
                 onClick={() => setStep("intensity")}
                 className="flex-1"
               >

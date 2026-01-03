@@ -6,7 +6,7 @@ import { X } from "lucide-react";
 
 interface BreathingExerciseProps {
   onClose: () => void;
-  duration?: number; // in seconds
+  duration?: number;
 }
 
 type BreathPhase = "inhale" | "hold" | "exhale" | "rest";
@@ -78,7 +78,7 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
   };
 
   return (
-    <Card variant="sanctuary" className="p-8 max-w-sm mx-auto relative overflow-hidden">
+    <Card variant="glass" className="p-8 max-w-sm mx-auto relative overflow-hidden">
       <button
         onClick={onClose}
         className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted transition-colors z-10"
@@ -93,7 +93,6 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
 
         {/* Breathing orb */}
         <div className="relative w-48 h-48 mx-auto flex items-center justify-center">
-          {/* Outer glow */}
           <motion.div
             animate={{
               scale: isActive ? [1, 1.1, 1] : 1,
@@ -103,10 +102,9 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
               duration: phaseConfig[phase].duration,
               ease: "easeInOut",
             }}
-            className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 to-accent/30"
+            className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/30 to-pink-500/30"
           />
 
-          {/* Main orb */}
           <motion.div
             animate={{
               scale: isActive ? getOrbScale() : 1,
@@ -115,7 +113,7 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
               duration: phaseConfig[phase].duration,
               ease: "easeInOut",
             }}
-            className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent shadow-glow flex items-center justify-center"
+            className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-pink-500 shadow-glow flex items-center justify-center"
           >
             <AnimatePresence mode="wait">
               <motion.span
@@ -123,7 +121,7 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="text-primary-foreground text-sm font-medium text-center px-4"
+                className="text-white text-sm font-medium text-center px-4"
               >
                 {isActive ? phaseConfig[phase].instruction : "Ready"}
               </motion.span>
@@ -131,12 +129,10 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
           </motion.div>
         </div>
 
-        {/* Timer */}
         <div className="text-2xl font-light text-muted-foreground">
           {formatTime(timeLeft)}
         </div>
 
-        {/* Controls */}
         {!isActive ? (
           <Button
             variant="lumora"
@@ -148,7 +144,7 @@ export function BreathingExercise({ onClose, duration = 60 }: BreathingExerciseP
           </Button>
         ) : (
           <Button
-            variant="sanctuary"
+            variant="glass"
             size="lg"
             onClick={() => setIsActive(false)}
             className="w-full"
