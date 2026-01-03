@@ -22,7 +22,6 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
   const recognitionRef = useRef<any>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
 
-  // Check if speech recognition is supported
   const isSupported = typeof window !== "undefined" && 
     ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
 
@@ -41,15 +40,14 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
       setTranscript("");
     };
 
-    recognition.onresult = (event) => {
+    recognition.onresult = (event: any) => {
       const current = event.resultIndex;
       const result = event.results[current];
       const transcriptText = result[0].transcript;
       setTranscript(transcriptText);
     };
 
-    recognition.onerror = (event) => {
-      console.error("Speech recognition error:", event.error);
+    recognition.onerror = () => {
       setState("idle");
     };
 
@@ -72,17 +70,13 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
     if (transcript) {
       setState("processing");
       
-      // Check for crisis keywords
       if (detectCrisisKeywords(transcript)) {
         onCrisisDetected();
         return;
       }
 
-      // Generate response (in production, this would call the backend)
       const lumoraResponse = generateLumoraResponse("okay", undefined, transcript);
       setResponse(lumoraResponse.message);
-      
-      // Speak the response
       speakResponse(lumoraResponse.message);
     } else {
       setState("idle");
@@ -103,13 +97,8 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
     utterance.pitch = 1;
     utterance.volume = 1;
 
-    utterance.onend = () => {
-      setState("idle");
-    };
-
-    utterance.onerror = () => {
-      setState("idle");
-    };
+    utterance.onend = () => setState("idle");
+    utterance.onerror = () => setState("idle");
 
     synthRef.current.speak(utterance);
   };
@@ -133,7 +122,7 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
 
   if (!isSupported) {
     return (
-      <Card variant="sanctuary" className="p-6 max-w-sm mx-auto">
+      <Card variant="glass" className="p-6 max-w-sm mx-auto">
         <div className="text-center space-y-4">
           <AlertCircle className="w-12 h-12 mx-auto text-warning" />
           <h3 className="text-lg font-medium text-foreground">
@@ -143,7 +132,7 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
             Voice features require a browser that supports the Web Speech API.
             Try using Chrome, Edge, or Safari.
           </p>
-          <Button variant="sanctuary" onClick={onClose}>
+          <Button variant="glass" onClick={onClose}>
             Close
           </Button>
         </div>
@@ -152,7 +141,7 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
   }
 
   return (
-    <Card variant="sanctuary" className="p-8 max-w-sm mx-auto relative">
+    <Card variant="glass" className="p-8 max-w-sm mx-auto relative">
       <button
         onClick={onClose}
         className="absolute top-4 right-4 p-2 rounded-lg hover:bg-muted transition-colors"
@@ -165,7 +154,6 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
           Voice Companion
         </h3>
 
-        {/* Voice orb */}
         <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
           <motion.div
             animate={{
@@ -180,23 +168,22 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
             }}
             className={`w-32 h-32 rounded-full flex items-center justify-center shadow-glow ${
               state === "listening" 
-                ? "bg-gradient-to-br from-success to-primary" 
+                ? "bg-gradient-to-br from-success to-cyan-500" 
                 : state === "speaking"
-                ? "bg-gradient-to-br from-accent to-primary"
-                : "bg-gradient-to-br from-primary to-accent"
+                ? "bg-gradient-to-br from-pink-500 to-primary"
+                : "bg-gradient-to-br from-primary to-pink-500"
             }`}
           >
             {state === "listening" ? (
-              <Mic className="w-10 h-10 text-primary-foreground" />
+              <Mic className="w-10 h-10 text-white" />
             ) : state === "speaking" ? (
-              <Volume2 className="w-10 h-10 text-primary-foreground" />
+              <Volume2 className="w-10 h-10 text-white" />
             ) : (
-              <MicOff className="w-10 h-10 text-primary-foreground/70" />
+              <MicOff className="w-10 h-10 text-white/70" />
             )}
           </motion.div>
         </div>
 
-        {/* State indicator */}
         <div className="h-6">
           <AnimatePresence mode="wait">
             <motion.p
@@ -214,7 +201,6 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
           </AnimatePresence>
         </div>
 
-        {/* Transcript */}
         {transcript && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -225,7 +211,6 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
           </motion.div>
         )}
 
-        {/* Response */}
         <motion.div
           key={response}
           initial={{ opacity: 0 }}
@@ -235,7 +220,6 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
           {response}
         </motion.div>
 
-        {/* Hold to talk button */}
         {state !== "speaking" ? (
           <Button
             variant="lumora"
@@ -251,7 +235,7 @@ export function VoiceCompanion({ onClose, onCrisisDetected }: VoiceCompanionProp
           </Button>
         ) : (
           <Button
-            variant="sanctuary"
+            variant="glass"
             size="xl"
             className="w-full"
             onClick={stopSpeaking}

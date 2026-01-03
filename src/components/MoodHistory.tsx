@@ -9,10 +9,10 @@ interface MoodHistoryProps {
 
 const moodColors: Record<MoodLevel, string> = {
   great: "bg-success",
-  good: "bg-warning",
+  good: "bg-yellow-400",
   okay: "bg-muted-foreground",
-  low: "bg-secondary",
-  struggling: "bg-accent",
+  low: "bg-cyan-400",
+  struggling: "bg-pink-400",
 };
 
 const moodLabels: Record<MoodLevel, string> = {
@@ -24,7 +24,6 @@ const moodLabels: Record<MoodLevel, string> = {
 };
 
 export function MoodHistory({ entries }: MoodHistoryProps) {
-  // Get last 7 entries for mini view
   const recentEntries = entries.slice(-7);
 
   if (entries.length === 0) {
@@ -43,7 +42,6 @@ export function MoodHistory({ entries }: MoodHistoryProps) {
         Recent Moods
       </h4>
       
-      {/* Mini mood bars */}
       <div className="flex items-end gap-1 h-16 mb-3">
         {recentEntries.map((entry, index) => {
           const heightMap: Record<MoodLevel, string> = {
@@ -71,7 +69,6 @@ export function MoodHistory({ entries }: MoodHistoryProps) {
         })}
       </div>
 
-      {/* Legend */}
       <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
         {Object.entries(moodLabels).map(([level, label]) => (
           <div key={level} className="flex items-center gap-1">

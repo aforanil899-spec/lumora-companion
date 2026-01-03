@@ -22,15 +22,14 @@ export default function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-sanctuary">
+    <div className="min-h-screen bg-background noise">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-[350px] h-[350px] bg-primary/5 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-8 space-y-8">
-        {/* Header */}
         <header className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <LumoraLogo size="sm" />
@@ -39,12 +38,11 @@ export default function Settings() {
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-semibold text-foreground"
+          className="text-2xl font-bold text-foreground"
         >
           Settings
         </motion.h1>
 
-        {/* Privacy Settings */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -90,7 +88,6 @@ export default function Settings() {
           </Card>
         </motion.div>
 
-        {/* Data Management */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -121,7 +118,7 @@ export default function Settings() {
                 </p>
                 <div className="flex gap-3">
                   <Button
-                    variant="sanctuary"
+                    variant="glass"
                     className="flex-1"
                     onClick={() => setShowClearConfirm(false)}
                   >
@@ -140,7 +137,6 @@ export default function Settings() {
           </Card>
         </motion.div>
 
-        {/* About & Disclaimers */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -148,8 +144,8 @@ export default function Settings() {
         >
           <Card variant="glass" className="p-5 space-y-4">
             <div className="flex items-center gap-3">
-              <Heart className="w-5 h-5 text-accent" />
-              <h2 className="font-medium text-foreground">About LUMORA</h2>
+              <Heart className="w-5 h-5 text-pink-500" />
+              <h2 className="font-medium text-foreground">About Lumora</h2>
             </div>
 
             <div className="space-y-3 text-sm text-muted-foreground">
@@ -174,14 +170,13 @@ export default function Settings() {
           </Card>
         </motion.div>
 
-        {/* Version */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="text-xs text-muted-foreground text-center"
+          className="text-xs text-muted-foreground/60 text-center"
         >
-          LUMORA v1.0.0 • Privacy-first mental wellness
+          Lumora v1.0.0 • Privacy-first mental wellness
         </motion.p>
       </div>
     </div>

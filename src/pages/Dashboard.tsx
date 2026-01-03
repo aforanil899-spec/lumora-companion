@@ -8,7 +8,6 @@ import { SpaceCard } from "@/components/SpaceCard";
 import { CrisisOverlay } from "@/components/CrisisOverlay";
 import { BreathingExercise } from "@/components/BreathingExercise";
 import { VoiceCompanion } from "@/components/VoiceCompanion";
-import { PrivacyBadge } from "@/components/PrivacyBadge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useMoodStore } from "@/hooks/useMoodStore";
@@ -16,7 +15,7 @@ import { useCrisisDetection } from "@/hooks/useCrisisDetection";
 import { generateLumoraResponse } from "@/lib/lumora-ai";
 import { NOT_A_THERAPIST_DISCLAIMER } from "@/lib/privacy";
 import type { MoodLevel, MoodIntensity, SpaceType } from "@/lib/types";
-import { Wind, Heart, Sparkles, Settings } from "lucide-react";
+import { Wind, Heart, Sparkles, Settings, X } from "lucide-react";
 
 const spaces: SpaceType[] = ["music", "books", "exercise", "games", "community", "voice"];
 
@@ -34,17 +33,13 @@ export default function Dashboard() {
   const handleMoodSelect = async (mood: MoodLevel, intensity: MoodIntensity, reflection?: string) => {
     setIsSubmitting(true);
     
-    // Check for crisis in reflection text
     if (reflection && checkText(reflection)) {
       setIsSubmitting(false);
       setShowMoodSelector(false);
       return;
     }
 
-    // Add the mood entry
     const entry = addMoodEntry(mood, intensity, reflection);
-
-    // Generate LUMORA response
     const response = generateLumoraResponse(mood, entry.emotionVector, reflection);
     setLumoraMessage(response.message);
 
@@ -60,16 +55,14 @@ export default function Dashboard() {
     }
   };
 
-  const latestMood = entries[entries.length - 1];
   const greeting = getGreeting();
 
   return (
-    <div className="min-h-screen bg-sanctuary">
-      {/* Aurora background effect */}
+    <div className="min-h-screen bg-background noise">
+      {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse-slow delay-1000" />
-        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-lumora-aurora2/10 rounded-full blur-3xl animate-pulse-slow delay-2000" />
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-pink-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "1s" }} />
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-8 space-y-8">
@@ -77,7 +70,7 @@ export default function Dashboard() {
         <header className="flex items-center justify-between">
           <LumoraLogo size="md" />
           <Button variant="ghost" size="icon" onClick={() => navigate("/settings")}>
-            <Settings className="w-5 h-5 text-muted-foreground" />
+            <Settings className="w-5 h-5" />
           </Button>
         </header>
 
@@ -87,10 +80,16 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-2"
         >
-          <h1 className="text-2xl font-semibold text-foreground">
+          <h1 className="text-2xl font-bold text-foreground">
             {greeting}
           </h1>
-          <PrivacyBadge />
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 text-success text-xs">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
+            </span>
+            <span>Lumi is online</span>
+          </div>
         </motion.div>
 
         {/* Quick Actions */}
@@ -101,24 +100,24 @@ export default function Dashboard() {
           className="grid grid-cols-3 gap-3"
         >
           <Button
-            variant="space"
-            className="flex-col h-auto py-4 gap-2"
+            variant="glass"
+            className="flex-col h-auto py-5 gap-2 hover:shadow-glow"
             onClick={() => setShowMoodSelector(true)}
           >
-            <Heart className="w-5 h-5 text-accent" />
+            <Heart className="w-5 h-5 text-pink-500" />
             <span className="text-xs">Check In</span>
           </Button>
           <Button
-            variant="space"
-            className="flex-col h-auto py-4 gap-2"
+            variant="glass"
+            className="flex-col h-auto py-5 gap-2 hover:shadow-glow"
             onClick={() => setShowBreathing(true)}
           >
-            <Wind className="w-5 h-5 text-success" />
+            <Wind className="w-5 h-5 text-cyan-400" />
             <span className="text-xs">Breathe</span>
           </Button>
           <Button
-            variant="space"
-            className="flex-col h-auto py-4 gap-2"
+            variant="glass"
+            className="flex-col h-auto py-5 gap-2 hover:shadow-glow"
             onClick={() => navigate("/rituals")}
           >
             <Sparkles className="w-5 h-5 text-primary" />
@@ -134,14 +133,14 @@ export default function Dashboard() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
             >
-              <Card variant="glow" className="p-5">
-                <p className="text-foreground leading-relaxed">{lumoraMessage}</p>
+              <Card variant="glow" className="p-5 relative">
                 <button
                   onClick={() => setLumoraMessage(null)}
-                  className="mt-3 text-xs text-muted-foreground hover:text-foreground"
+                  className="absolute top-3 right-3 p-1 rounded-lg hover:bg-muted transition-colors"
                 >
-                  Dismiss
+                  <X className="w-4 h-4 text-muted-foreground" />
                 </button>
+                <p className="text-foreground leading-relaxed pr-8">{lumoraMessage}</p>
               </Card>
             </motion.div>
           )}
@@ -185,7 +184,7 @@ export default function Dashboard() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-xs text-muted-foreground text-center pt-4"
+          className="text-xs text-muted-foreground/60 text-center pt-4"
         >
           {NOT_A_THERAPIST_DISCLAIMER}
         </motion.p>
@@ -198,7 +197,7 @@ export default function Dashboard() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
             onClick={(e) => e.target === e.currentTarget && setShowMoodSelector(false)}
           >
             <MoodSelector onMoodSelect={handleMoodSelect} isSubmitting={isSubmitting} />
@@ -210,7 +209,7 @@ export default function Dashboard() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
           >
             <BreathingExercise onClose={() => setShowBreathing(false)} />
           </motion.div>
@@ -221,14 +220,11 @@ export default function Dashboard() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
           >
             <VoiceCompanion 
               onClose={() => setShowVoice(false)}
-              onCrisisDetected={() => {
-                setShowVoice(false);
-                // Crisis state is managed by the hook
-              }}
+              onCrisisDetected={() => setShowVoice(false)}
             />
           </motion.div>
         )}

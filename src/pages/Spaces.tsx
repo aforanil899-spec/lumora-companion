@@ -57,7 +57,7 @@ const spaceContent: Record<SpaceType, {
     description: "You're not alone in this",
     items: [
       { id: "today", title: "Today's Mood Trend", subtitle: "42% feeling hopeful" },
-      { id: "quote", title: "Community Quote", subtitle: "\"This too shall pass\"" },
+      { id: "quote", title: "Community Quote", subtitle: '"This too shall pass"' },
       { id: "milestone", title: "Collective Milestone", subtitle: "1,000 check-ins today" },
       { id: "kindness", title: "Act of Kindness", subtitle: "Share anonymously" },
     ],
@@ -84,7 +84,7 @@ export default function Spaces() {
   const [playingId, setPlayingId] = useState<string | null>(null);
 
   if (!type || !spaceContent[type as SpaceType]) {
-    navigate("/");
+    navigate("/dashboard");
     return null;
   }
 
@@ -94,44 +94,39 @@ export default function Spaces() {
     if (type === "music") {
       setPlayingId(playingId === itemId ? null : itemId);
     }
-    // Other space types would have their own interactions
   };
 
   return (
-    <div className="min-h-screen bg-sanctuary">
-      {/* Aurora background */}
+    <div className="min-h-screen bg-background noise">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse-slow delay-1000" />
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-pink-500/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-8 space-y-8">
-        {/* Header */}
         <header className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <LumoraLogo size="sm" />
         </header>
 
-        {/* Space Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-4"
         >
-          <div className="p-4 rounded-2xl bg-muted/50 text-foreground">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-primary to-pink-500 text-white shadow-lg">
             {spaceIcons[type as SpaceType]}
           </div>
           <div>
-            <h1 className="text-2xl font-semibold text-foreground">
+            <h1 className="text-2xl font-bold text-foreground">
               {space.title}
             </h1>
             <p className="text-muted-foreground">{space.description}</p>
           </div>
         </motion.div>
 
-        {/* Content Grid */}
         <div className="grid gap-3">
           {space.items.map((item, index) => (
             <motion.div
@@ -141,8 +136,8 @@ export default function Spaces() {
               transition={{ delay: index * 0.1 }}
             >
               <Card
-                variant="space"
-                className="p-4 cursor-pointer hover:shadow-glow"
+                variant="feature"
+                className="p-4 cursor-pointer"
                 onClick={() => handleItemClick(item.id)}
               >
                 <div className="flex items-center justify-between">
@@ -172,7 +167,6 @@ export default function Spaces() {
           ))}
         </div>
 
-        {/* Music Player (when playing) */}
         {type === "music" && playingId && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

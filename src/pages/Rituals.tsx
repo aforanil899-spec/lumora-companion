@@ -48,10 +48,10 @@ const ritualIcons: Record<RitualType["type"], React.ReactNode> = {
 };
 
 const ritualColors: Record<RitualType["type"], string> = {
-  breathing: "from-success/20 to-primary/10",
-  grounding: "from-lumora-aurora2/20 to-accent/10",
-  journaling: "from-accent/20 to-primary/10",
-  movement: "from-warning/20 to-success/10",
+  breathing: "from-cyan-500 to-blue-500",
+  grounding: "from-indigo-500 to-purple-500",
+  journaling: "from-pink-500 to-rose-500",
+  movement: "from-success to-emerald-400",
 };
 
 export default function Rituals() {
@@ -84,17 +84,15 @@ export default function Rituals() {
   };
 
   return (
-    <div className="min-h-screen bg-sanctuary">
-      {/* Aurora background */}
+    <div className="min-h-screen bg-background noise">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse-slow" />
-        <div className="absolute bottom-1/3 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse-slow delay-1000" />
+        <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-pink-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/3 left-1/4 w-[350px] h-[350px] bg-primary/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-8 space-y-8">
-        {/* Header */}
         <header className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
+          <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <LumoraLogo size="sm" />
@@ -104,7 +102,7 @@ export default function Rituals() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-2xl font-semibold text-foreground mb-2">
+          <h1 className="text-2xl font-bold text-foreground mb-2">
             Rituals
           </h1>
           <p className="text-muted-foreground">
@@ -112,7 +110,6 @@ export default function Rituals() {
           </p>
         </motion.div>
 
-        {/* Ritual Grid */}
         <div className="grid gap-4">
           {rituals.map((ritual, index) => (
             <motion.div
@@ -122,12 +119,12 @@ export default function Rituals() {
               transition={{ delay: index * 0.1 }}
             >
               <Card
-                variant="space"
-                className={`p-5 cursor-pointer bg-gradient-to-br ${ritualColors[ritual.type]} hover:shadow-glow`}
+                variant="feature"
+                className="p-5 cursor-pointer"
                 onClick={() => setActiveRitual(ritual.id)}
               >
                 <div className="flex items-start gap-4">
-                  <div className="p-3 rounded-xl bg-muted/50 text-foreground">
+                  <div className={`p-3 rounded-xl bg-gradient-to-br ${ritualColors[ritual.type]} text-white shadow-lg`}>
                     {ritualIcons[ritual.type]}
                   </div>
                   <div className="flex-1">
@@ -144,14 +141,13 @@ export default function Rituals() {
         </div>
       </div>
 
-      {/* Ritual Modals */}
       <AnimatePresence>
         {activeRitual === "breathing" && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex items-center justify-center p-4"
           >
             <BreathingExercise onClose={handleRitualComplete} />
           </motion.div>
@@ -162,9 +158,9 @@ export default function Rituals() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex items-center justify-center p-4"
           >
-            <Card variant="sanctuary" className="p-8 max-w-sm w-full">
+            <Card variant="glass" className="p-8 max-w-sm w-full">
               <div className="text-center space-y-6">
                 <h3 className="text-lg font-medium text-foreground">
                   5-4-3-2-1 Grounding
@@ -209,7 +205,7 @@ export default function Rituals() {
                       </p>
                     </div>
                     <Button
-                      variant="sanctuary"
+                      variant="glass"
                       className="w-full"
                       onClick={handleRitualComplete}
                     >
@@ -227,9 +223,9 @@ export default function Rituals() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex items-center justify-center p-4"
           >
-            <Card variant="sanctuary" className="p-8 max-w-md w-full">
+            <Card variant="glass" className="p-8 max-w-md w-full">
               <div className="space-y-6">
                 <h3 className="text-lg font-medium text-foreground text-center">
                   Quick Reflection
@@ -247,7 +243,7 @@ export default function Rituals() {
 
                 <div className="flex gap-3">
                   <Button
-                    variant="sanctuary"
+                    variant="glass"
                     className="flex-1"
                     onClick={handleRitualComplete}
                   >
@@ -275,9 +271,9 @@ export default function Rituals() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-background/90 backdrop-blur-xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex items-center justify-center p-4"
           >
-            <Card variant="sanctuary" className="p-8 max-w-sm w-full">
+            <Card variant="glass" className="p-8 max-w-sm w-full">
               <div className="text-center space-y-6">
                 <h3 className="text-lg font-medium text-foreground">
                   Gentle Stretch
@@ -316,7 +312,7 @@ export default function Rituals() {
                       </p>
                     </div>
                     <Button
-                      variant="sanctuary"
+                      variant="glass"
                       className="w-full"
                       onClick={handleRitualComplete}
                     >

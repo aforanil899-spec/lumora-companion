@@ -47,7 +47,6 @@ export function CrisisOverlay({ onClose }: CrisisOverlayProps) {
           </div>
 
           <div className="space-y-4 mb-6">
-            {/* US Resources */}
             <div className="p-4 rounded-xl bg-muted/50 border border-border/30">
               <h3 className="font-medium text-foreground mb-2">
                 {EMERGENCY_RESOURCES.US.name}
@@ -67,7 +66,6 @@ export function CrisisOverlay({ onClose }: CrisisOverlayProps) {
               </div>
             </div>
 
-            {/* UK Resources */}
             <div className="p-4 rounded-xl bg-muted/50 border border-border/30">
               <h3 className="font-medium text-foreground mb-2">
                 {EMERGENCY_RESOURCES.UK.name}
@@ -81,7 +79,6 @@ export function CrisisOverlay({ onClose }: CrisisOverlayProps) {
               </a>
             </div>
 
-            {/* International */}
             <div className="p-4 rounded-xl bg-muted/50 border border-border/30">
               <h3 className="font-medium text-foreground mb-2">
                 {EMERGENCY_RESOURCES.GLOBAL.name}
@@ -102,8 +99,8 @@ export function CrisisOverlay({ onClose }: CrisisOverlayProps) {
             {NOT_A_THERAPIST_DISCLAIMER}
           </p>
 
-          <Button variant="sanctuary" className="w-full" onClick={onClose}>
-            I'm Okay, Return to LUMORA
+          <Button variant="glass" className="w-full" onClick={onClose}>
+            I'm Okay, Return to Lumora
           </Button>
         </Card>
       </motion.div>
